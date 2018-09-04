@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.great.adou.app.widget.RatioRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="90dp"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:background="@drawable/bg_dialog_view"
+    android:padding="10dp"
+    app:ratioHeightLayout="1"
+    app:ratioWidthLayout="1">
+
+    <com.great.adou.app.widget.ProgressWheel
+        android:id="@+id/progress_wheel"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_centerHorizontal="true"
+        app:mn_barColor="@color/colorAccent"
+        app:mn_barWidth="2dp"
+        app:mn_fillRadius="true"
+        app:mn_progressIndeterminate="true" />
+
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progress_wheel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        tools:text="请稍候..." />
+
+
+</com.great.adou.app.widget.RatioRelativeLayout>
