@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.great.adou.R;
 import com.great.adou.app.Constants;
 import com.great.adou.app.base.BaseActivity;
@@ -30,6 +29,12 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         requestPermissions();
+    }
+
+
+    @Override
+    protected boolean openLoadingPage() {
+        return false;
     }
 
     private void requestPermissions() {

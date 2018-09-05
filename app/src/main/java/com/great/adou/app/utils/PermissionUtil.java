@@ -2,7 +2,6 @@ package com.great.adou.app.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
@@ -12,7 +11,6 @@ import com.bingo.lib.dialog.IDialogConfirm;
 import com.bingo.lib.dialog.impl.DialogBase;
 import com.bingo.lib.dialog.impl.DialogConfirm;
 import com.blankj.utilcode.util.ActivityUtils;
-import com.great.adou.R;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -99,7 +97,8 @@ public class PermissionUtil {
                         activity.startActivityForResult(intent, CODE_PERMISSIONS);
                     }
                 })
-                .show();
+                .setCancelable(false);
+        mDialogConfirm.show();
 
     }
 
