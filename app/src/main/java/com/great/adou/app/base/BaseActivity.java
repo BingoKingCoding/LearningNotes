@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.great.adou.R;
 import com.great.adou.app.utils.CollectionUtil;
+import com.great.adou.app.utils.StatusBarUtil;
 import com.great.adou.app.widget.LoadingPage;
 import com.great.adou.app.widget.ProgressDialog;
 import com.trello.rxlifecycle2.components.RxActivity;
@@ -59,6 +61,12 @@ public class BaseActivity extends RxActivity {
 
         super.setContentView(contentView);
         onInitContentView(contentView);
+
+        setStatusBar();
+    }
+
+    protected void setStatusBar() {
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary), 0);
     }
 
     //----------------------添加标题栏和LoadingPage  by WangWB -----------------------------
@@ -166,14 +174,14 @@ public class BaseActivity extends RxActivity {
 
     public void exitApp() {
         if (System.currentTimeMillis() - mExitTime > 2000) {
-            ToastUtils.showShort("再按一次返回桌面!");
+            ToastUtils.showShort("再按一次退出" + AppUtils.getAppName());
         } else {
             //发送事件,参考下面的方法onExitAppReceive
             //            EventBus.getDefault().post(new Message(), EventBusTags.EXITAPP_MESSAGE);
-            //            AppUtils.exitApp();
+            AppUtils.exitApp();
 
             //使App不退出，而是进入后台运行
-            moveTaskToBack(false);
+//            moveTaskToBack(false);
         }
         mExitTime = System.currentTimeMillis();
     }

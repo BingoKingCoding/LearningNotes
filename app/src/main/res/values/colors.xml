@@ -10,4 +10,8 @@
     <color name="text_333333">#333333</color>
     <color name="text_666666">#666666</color>
     <color name="text_999999">#999999</color>
+
+    <!-- 系统ToolBar背景颜色 -->
+    <color name="base_title_color">@color/colorPrimary</color>
+
 </resources>

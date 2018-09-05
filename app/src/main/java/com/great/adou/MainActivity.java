@@ -1,13 +1,16 @@
 package com.great.adou;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.great.adou.app.base.BaseTitleActivity;
+
+public class MainActivity extends BaseTitleActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mIsExitApp = true;
+        setTitleText("Main");
     }
 }
