@@ -1,29 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowSoftInputMode">adjustPan|stateHidden</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
     </style>
-
-    <!-- toolbar主题样式 -->
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <!-- menu中showAsAction设置为ifRoom和always的item项（即操作栏上）字体颜色 -->
-        <item name="actionMenuTextColor">@color/white</item>
-        <!-- menu中showAsAction设置为ifRoom和always的item项（即操作栏上）字体大小 -->
-        <!--<item name="actionMenuTextAppearance">@style/ToolbarMenuTextSize</item>-->
-        <!-- 设置标题、menu中所有item字体颜色 -->
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <!-- 设置子标题字体颜色 -->
-        <!--<item name="android:textColorSecondary">#ffad56</item>-->
-        <!--<item name="actionBarItemBackground">@drawable/toolbarItemBackground</item>-->
-        <!--<item name="selectableItemBackground">@drawable/toolbarItemBackground</item>-->
-        <!--<item name="titleTextAppearance">@style/ToolBar.Title</item>-->
-        <!--<item name="subtitleTextAppearance">@style/Toolbar.SubTitle</item>-->
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
 
 </resources>
