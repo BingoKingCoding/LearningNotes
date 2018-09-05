@@ -1,8 +1,11 @@
 package com.great.adou.app.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,29 +13,42 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.great.adou.R;
 import com.great.adou.app.utils.CollectionUtil;
+import com.great.adou.app.utils.PermissionUtil;
 import com.great.adou.app.utils.StatusBarUtil;
 import com.great.adou.app.widget.LoadingPage;
 import com.great.adou.app.widget.ProgressDialog;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.components.RxActivity;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * <所有activity的基类>
  * Created by WangWB on 2018/9/3:22:08.
  * Email:634051075@qq.com
  */
-public class BaseActivity extends RxActivity {
+public class BaseActivity<P extends IPresenter> extends RxActivity {
 
+    protected P mPresenter;
 
     /**
      * 触摸返回键是否退出App
      */
     protected boolean mIsExitApp = false;
     protected long mExitTime = 0;
+
+    //请求权限
+    private PermissionUtil mPermissionUtil;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -255,4 +271,52 @@ public class BaseActivity extends RxActivity {
     protected void setupActivityComponent() {
     }
 
+
+    //----------------------权限请求  by WangWB -----------------------------
+
+    public PermissionUtil getPermissionUtil() {
+        if (mPermissionUtil == null) {
+            mPermissionUtil = new PermissionUtil(this);
+        }
+        return mPermissionUtil;
+    }
+
+    public void requestPermissions(String permissions, String needPermissionDescription, PermissionUtil.OnPermissionsCallback onPermissionsCallback) {
+        requestPermissions(permissions, needPermissionDescription, onPermissionsCallback, false);
+    }
+
+    public void requestPermissions(String permissions, String needPermissionDescription, PermissionUtil.OnPermissionsCallback onPermissionsCallback, boolean isFinishActivity) {
+        List<String> needPermissions = new ArrayList<>();
+        Collections.addAll(needPermissions, permissions);
+        requestPermissions(needPermissions.toArray(new String[0]), needPermissionDescription, onPermissionsCallback, isFinishActivity);
+    }
+
+    public void requestPermissions(String[] permissions, String needPermissionDescription, PermissionUtil.OnPermissionsCallback onPermissionsCallback, boolean isFinishActivity) {
+        getPermissionUtil().requestPermissions(permissions, needPermissionDescription, onPermissionsCallback, isFinishActivity);
+    }
+
+    //----------------------权限请求  by WangWB -----------------------------
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mPermissionUtil != null) {
+            mPermissionUtil.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.onDestroy();
+            this.mPresenter = null;
+        }
+        if (mPermissionUtil != null) {
+            mPermissionUtil.release();
+            mPermissionUtil = null;
+        }
+
+    }
 }

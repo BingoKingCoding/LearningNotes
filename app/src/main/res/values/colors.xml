@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#FFFFFF</color>
-    <color name="bgB8000000">#B8000000</color>
+    <color name="bg_b8000000">#B8000000</color>
 
     <color name="text_333333">#333333</color>
     <color name="text_666666">#666666</color>
@@ -13,5 +13,8 @@
 
     <!-- 系统ToolBar背景颜色 -->
     <color name="base_title_color">@color/colorPrimary</color>
+    <color name="gray_888888">#888888</color>
+
+
 
 </resources>
