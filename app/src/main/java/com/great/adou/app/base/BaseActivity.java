@@ -76,9 +76,9 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
         View contentView = addTitleViewIfNeed(loadingContentView);
 
         super.setContentView(contentView);
-        onInitContentView(contentView);
-
         setStatusBar();
+
+        onInitContentView(contentView);
     }
 
     protected void setStatusBar() {

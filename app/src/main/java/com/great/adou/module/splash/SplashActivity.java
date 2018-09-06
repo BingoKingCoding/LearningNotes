@@ -1,8 +1,10 @@
 package com.great.adou.module.splash;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.great.adou.R;
 import com.great.adou.app.Constants;
@@ -24,13 +26,24 @@ public class SplashActivity extends BaseActivity {
     };
 
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        requestPermissions();
-    }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        boolean isFirst = SPHelper.getSPUtils().getBoolean(Constants.SP_IS_FIRST, true);
+        if (isFirst) {
+            Observable.timer(1, TimeUnit.SECONDS).compose(RxUtils.io2Main()).subscribe(aLong -> {
+                Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
+                startActivity(intent);
+                finish();
+            });
+
+        } else {
+            requestPermissions();
+        }
+    }
 
     @Override
     protected boolean openLoadingPage() {

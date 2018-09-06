@@ -13,7 +13,6 @@ public class MainActivity extends BaseTitleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SPHelper.getSPUtils().put(Constants.SP_IS_FIRST, false);
         mIsExitApp = true;
         setTitleText("Main");
         hideTitleNavigationButton();
