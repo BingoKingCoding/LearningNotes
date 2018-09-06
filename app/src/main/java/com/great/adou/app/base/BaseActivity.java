@@ -1,19 +1,15 @@
 package com.great.adou.app.base;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.great.adou.R;
 import com.great.adou.app.utils.CollectionUtil;
@@ -21,14 +17,14 @@ import com.great.adou.app.utils.PermissionUtil;
 import com.great.adou.app.utils.StatusBarUtil;
 import com.great.adou.app.widget.LoadingPage;
 import com.great.adou.app.widget.ProgressDialog;
-import com.jakewharton.rxbinding2.view.RxView;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.components.RxActivity;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.functions.Consumer;
 
@@ -39,6 +35,7 @@ import io.reactivex.functions.Consumer;
  */
 public class BaseActivity<P extends IPresenter> extends RxActivity {
 
+    @Inject
     protected P mPresenter;
 
     /**
@@ -210,7 +207,7 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
 
     private ProgressDialog mLoadingDialog;
 
-    protected void showLoadingDialog() {
+    public void showLoadingDialog() {
         showLoadingDialog(this, MESSAGE_LOADING, true);
     }
 
@@ -218,7 +215,7 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
         showLoadingDialog(this, MESSAGE_LOADING, cancelable);
     }
 
-    protected void showLoadingDialog(String msg) {
+    public void showLoadingDialog(String msg) {
         showLoadingDialog(this, msg, true);
     }
 
@@ -296,6 +293,7 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
     }
 
     //----------------------权限请求  by WangWB -----------------------------
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
