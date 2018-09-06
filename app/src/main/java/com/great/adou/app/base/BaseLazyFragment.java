@@ -3,6 +3,9 @@ package com.great.adou.app.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.orhanobut.logger.Logger;
+
+
 /**
  * <懒加载>
  * Created by adou on 2017/11/2:20:22.
@@ -53,7 +56,7 @@ public abstract class BaseLazyFragment<P extends IPresenter> extends BaseFragmen
      */
     public void prepareRequestData(boolean forceUpdate) {
         if (isVisibleToUser && isViewInitiated && (!isDataInitiated || forceUpdate)) {
-            requestData();
+            lazyLoadData();
             isDataInitiated = true;
         }
     }
@@ -61,6 +64,8 @@ public abstract class BaseLazyFragment<P extends IPresenter> extends BaseFragmen
     /**
      * 懒加载
      */
-    public abstract void requestData();
+    public void lazyLoadData() {
+        Logger.d("lazyLoadData");
+    }
 
 }

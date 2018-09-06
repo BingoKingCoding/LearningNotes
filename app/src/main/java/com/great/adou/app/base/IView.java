@@ -10,6 +10,10 @@ public interface IView {
 
     void showLoadingDialog(String msg);
 
+    void showSuccessPage();
+
+    void showErrorPage();
+
     void finish();
 
 }

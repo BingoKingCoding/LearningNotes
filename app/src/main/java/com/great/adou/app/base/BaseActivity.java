@@ -26,7 +26,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.functions.Consumer;
 
 /**
  * <所有activity的基类>
@@ -50,14 +49,12 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
-        setupActivityComponent();
+        initComponent();
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
 
@@ -65,7 +62,6 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
         View contentView = this.getLayoutInflater().inflate(layoutResID, this.findViewById(android.R.id.content), false);
         this.setContentView(contentView);
     }
-
 
     public void setContentView(View view) {
         View loadingContentView = addLoadingPageIfNeed(view);
@@ -157,11 +153,11 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
     }
 
 
-    protected void showSuccessPage() {
+    public void showSuccessPage() {
         showPage(LoadingPage.STATE_SUCCESS);
     }
 
-    protected void showErrorPage() {
+    public void showErrorPage() {
         showPage(LoadingPage.STATE_ERROR);
     }
 
@@ -265,7 +261,7 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
     }
 
 
-    protected void setupActivityComponent() {
+    protected void initComponent() {
     }
 
 

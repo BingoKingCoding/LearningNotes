@@ -7,4 +7,16 @@ package com.great.adou.app;
 public class Constants {
     //第一次打开app的标识
     public static final String SP_IS_FIRST = "is_first";
+    //干货
+    public static final String BASE_API_URL_GANKIO = "http://gank.io/";
+    //知乎
+    public static final String BASE_API_URL_ZHIHU = "http://news-at.zhihu.com/api/4/";
+    //豆瓣电影
+    public static final String BASE_API_URL_DOUBAN = "https://api.douban.com/";
+    //缓存
+    public static final int HTTP_CACHE_SIZE = 20 * 1024 * 1024;
+    //okHttp设置
+    public static final int HTTP_CONNECT_TIMEOUT = 10;
+    public static final int HTTP_READ_TIMEOUT = 20;
+
 }

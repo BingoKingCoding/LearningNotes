@@ -66,10 +66,20 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
         return contentView;
     }
 
+    /**
+     * Desc:加载布局开关
+     *
+     * @author wwb
+     */
     protected boolean openLoadingPage() {
         return true;
     }
 
+    /**
+     * Desc:初始化控件
+     *
+     * @author wwb
+     */
     protected void onInitContentView(View contentView) {
 
     }
@@ -110,6 +120,23 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
     protected void dismissLoadingDialog() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
+        }
+    }
+
+    //----------------------进度框  by WangWB -----------------------------
+
+
+    public void showSuccessPage() {
+        showPage(LoadingPage.STATE_SUCCESS);
+    }
+
+    public void showErrorPage() {
+        showPage(LoadingPage.STATE_ERROR);
+    }
+
+    protected void showPage(int state) {
+        if (mLoadingPage != null) {
+            mLoadingPage.showPage(state);
         }
     }
 
