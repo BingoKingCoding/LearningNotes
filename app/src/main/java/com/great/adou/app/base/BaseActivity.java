@@ -12,12 +12,17 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.great.adou.R;
+import com.great.adou.app.event.Event;
+import com.great.adou.app.event.EventBusUtil;
 import com.great.adou.app.utils.CollectionUtil;
 import com.great.adou.app.utils.PermissionUtil;
 import com.great.adou.app.utils.StatusBarUtil;
 import com.great.adou.app.widget.LoadingPage;
 import com.great.adou.app.widget.ProgressDialog;
 import com.trello.rxlifecycle2.components.RxActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,6 +62,21 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (isRegisterEventBus()) {
+            EventBusUtil.register(this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (isRegisterEventBus()) {
+            EventBusUtil.unregister(this);
+        }
+    }
 
     public void setContentView(int layoutResID) {
         View contentView = this.getLayoutInflater().inflate(layoutResID, this.findViewById(android.R.id.content), false);
@@ -287,6 +307,62 @@ public class BaseActivity<P extends IPresenter> extends RxActivity {
     public void requestPermissions(String[] permissions, String needPermissionDescription, PermissionUtil.OnPermissionsCallback onPermissionsCallback, boolean isFinishActivity) {
         getPermissionUtil().requestPermissions(permissions, needPermissionDescription, onPermissionsCallback, isFinishActivity);
     }
+
+    //----------------------EventBus  by WangWB -----------------------------
+
+    /**
+     * 是否注册事件分发
+     *
+     * @return true绑定EventBus事件分发，默认不绑定，子类需要绑定的话复写此方法返回true.
+     */
+    protected boolean isRegisterEventBus() {
+        return false;
+    }
+
+    /**
+     * 接收到分发到事件
+     *
+     * @param event 事件
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBusCome(Event event) {
+        if (event != null) {
+            onReceiveEvent(event);
+        }
+    }
+
+    /**
+     * 接受到分发的粘性事件
+     *
+     * @param event 粘性事件
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onStickyEventBusCome(Event event) {
+        if (event != null) {
+            onReceiveStickyEvent(event);
+        }
+    }
+
+    /**
+     * 接收到分发到事件
+     *
+     * @param event 事件
+     */
+    protected void onReceiveEvent(Event event) {
+
+    }
+
+    /**
+     * 接受到分发的粘性事件
+     *
+     * @param event 粘性事件
+     */
+    protected void onReceiveStickyEvent(Event event) {
+
+    }
+
+    //----------------------EventBus  by WangWB -----------------------------
+
 
     //----------------------权限请求  by WangWB -----------------------------
 

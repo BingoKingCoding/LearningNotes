@@ -9,10 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.great.adou.app.event.Event;
+import com.great.adou.app.event.EventBusUtil;
 import com.great.adou.app.widget.LoadingPage;
 import com.great.adou.app.widget.ProgressDialog;
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.components.support.RxFragment;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Objects;
 
@@ -46,6 +51,24 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
         View contentView = getLayoutInflater().inflate(getContentLayoutId(), Objects.requireNonNull(getActivity()).findViewById(android.R.id.content), false);
         onInitContentView(contentView);
         return addLoadingPageIfNeed(contentView);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (isRegisterEventBus()) {
+            EventBusUtil.register(this);
+        }
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (isRegisterEventBus()) {
+            EventBusUtil.unregister(this);
+        }
     }
 
     private View addLoadingPageIfNeed(View contentView) {
@@ -139,6 +162,64 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
             mLoadingPage.showPage(state);
         }
     }
+
+//----------------------EventBus  by WangWB -----------------------------
+
+    /**
+     * 是否注册事件分发
+     *
+     * @return true绑定EventBus事件分发，默认不绑定，子类需要绑定的话复写此方法返回true.
+     */
+    protected boolean isRegisterEventBus() {
+        return false;
+    }
+
+    /**
+     * 接收到分发到事件
+     *
+     * @param event 事件
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBusCome(Event event) {
+        if (event != null) {
+            onReceiveEvent(event);
+        }
+    }
+
+    /**
+     * 接受到分发的粘性事件
+     *
+     * @param event 粘性事件
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onStickyEventBusCome(Event event) {
+        if (event != null) {
+            onReceiveStickyEvent(event);
+        }
+    }
+
+    /**
+     * 接收到分发到事件
+     *
+     * @param event 事件
+     */
+    protected void onReceiveEvent(Event event) {
+
+    }
+
+    /**
+     * 接受到分发的粘性事件
+     *
+     * @param event 粘性事件
+     */
+    protected void onReceiveStickyEvent(Event event) {
+
+    }
+
+    //----------------------EventBus  by WangWB -----------------------------
+
+
+
 
 
     /**
