@@ -39,9 +39,6 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Logger.d("onCreate");
-//        if (useEventBus()) {//如果要使用eventBus请将此方法返回true
-//            EventBus.getDefault().register(this);
-//        }
         initComponent();
     }
 

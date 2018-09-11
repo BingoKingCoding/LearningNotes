@@ -20,6 +20,7 @@ import com.great.adou.app.utils.StatusBarUtil;
 import com.great.adou.app.widget.LoadingPage;
 import com.great.adou.app.widget.ProgressDialog;
 import com.trello.rxlifecycle2.components.RxActivity;
+import com.trello.rxlifecycle2.components.support.RxFragmentActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -37,7 +38,7 @@ import javax.inject.Inject;
  * Created by WangWB on 2018/9/3:22:08.
  * Email:634051075@qq.com
  */
-public class BaseActivity<P extends IPresenter> extends RxActivity {
+public class BaseActivity<P extends IPresenter> extends RxFragmentActivity {
 
     @Inject
     protected P mPresenter;

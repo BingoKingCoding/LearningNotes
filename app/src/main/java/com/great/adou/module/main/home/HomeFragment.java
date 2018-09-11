@@ -1,5 +1,9 @@
 package com.great.adou.module.main.home;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+
+import com.great.adou.R;
 import com.great.adou.app.base.BaseFragment;
 
 /**
@@ -9,9 +13,17 @@ import com.great.adou.app.base.BaseFragment;
 public class HomeFragment extends BaseFragment {
 
 
+    public static Fragment newInstance() {
+        HomeFragment fragment = new HomeFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("type", type);
+//        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     protected int getContentLayoutId() {
-        return 0;
+        return R.layout.fragment_home;
     }
 
     @Override
