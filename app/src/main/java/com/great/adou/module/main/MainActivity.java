@@ -6,13 +6,12 @@ import android.support.v4.app.Fragment;
 
 import com.blankj.utilcode.util.FragmentUtils;
 import com.great.adou.R;
-import com.great.adou.app.Constants;
-import com.great.adou.app.base.BaseTitleActivity;
-import com.great.adou.app.utils.SPHelper;
+import com.great.adou.app.base.BaseActivity;
+import com.great.adou.app.utils.StatusBarUtil;
 import com.great.adou.app.widget.BottomNavigationView;
 import com.great.adou.module.main.home.HomeFragment;
 
-public class MainActivity extends BaseTitleActivity {
+public class MainActivity extends BaseActivity {
 
     BottomNavigationView mBottomBar;
 
@@ -29,6 +28,10 @@ public class MainActivity extends BaseTitleActivity {
         init();
     }
 
+    @Override
+    protected void setStatusBar() {
+        StatusBarUtil.setTranslucentForImageViewInFragment(MainActivity.this, null);
+    }
 
     @Override
     protected boolean openLoadingPage() {
@@ -37,8 +40,6 @@ public class MainActivity extends BaseTitleActivity {
 
     private void init() {
         mIsExitApp = true;
-        setTitleText("Main");
-        hideTitleNavigationButton();
 
         mBottomBar = findViewById(R.id.bottomBar);
         initTab();
