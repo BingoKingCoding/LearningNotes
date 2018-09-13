@@ -137,7 +137,7 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
         mLoadingDialog.show();
     }
 
-    protected void dismissLoadingDialog() {
+    public void dismissLoadingDialog() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }
@@ -216,9 +216,6 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
     //----------------------EventBus  by WangWB -----------------------------
 
 
-
-
-
     /**
      * 1
      * 根据网络获取的数据返回状态，每一个子类的获取网络返回的都不一样，所以要交给子类去完成
@@ -234,6 +231,10 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
 
 
     protected void initComponent() {
+    }
+
+    public void finish() {
+        Objects.requireNonNull(getActivity()).finish();
     }
 
 }

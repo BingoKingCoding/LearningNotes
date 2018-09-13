@@ -10,12 +10,17 @@
     <color name="text_333333">#333333</color>
     <color name="text_666666">#666666</color>
     <color name="text_999999">#999999</color>
+    <color name="text_home_middle">#ffce3d3a</color>
 
     <!-- 系统ToolBar背景颜色 -->
     <color name="base_title_color">@color/colorPrimary</color>
     <color name="gray_888888">#888888</color>
+    <color name="d1d1d1">#d1d1d1d1</color>
+
+    <color name="yellow">#fcdd43</color>
 
     <!--底部导航栏背景色-->
     <color name="bg_bottom_navigation">#FAFBFE</color>
-
+    <!--item的分割线-->
+    <color name="color_item_line">@color/d1d1d1</color>
 </resources>

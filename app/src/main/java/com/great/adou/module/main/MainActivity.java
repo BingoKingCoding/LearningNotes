@@ -10,6 +10,7 @@ import com.great.adou.app.base.BaseActivity;
 import com.great.adou.app.utils.StatusBarUtil;
 import com.great.adou.app.widget.BottomNavigationView;
 import com.great.adou.module.main.home.HomeFragment;
+import com.great.adou.module.main.me.MeFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -48,9 +49,9 @@ public class MainActivity extends BaseActivity {
     private void initTab() {
 
         mFragments[0] = HomeFragment.newInstance();
-        mFragments[1] = HomeFragment.newInstance();
-        mFragments[2] = HomeFragment.newInstance();
-        mFragments[3] = HomeFragment.newInstance();
+        mFragments[1] = MeFragment.newInstance();
+        mFragments[2] = MeFragment.newInstance();
+        mFragments[3] = MeFragment.newInstance();
 
         FragmentUtils.add(getSupportFragmentManager(), mFragments, R.id.fragment_container, curIndex);
 
