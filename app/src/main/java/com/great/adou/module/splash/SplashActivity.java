@@ -32,7 +32,7 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        boolean isFirst = SPHelper.getSPUtils().getBoolean(Constants.SP_IS_FIRST, true);
+        boolean isFirst = SPHelper.getSPUtils().getBoolean(Constants.SPConstants.SP_IS_FIRST, true);
         if (isFirst) {
             Observable.timer(1, TimeUnit.SECONDS).compose(RxUtils.io2Main()).subscribe(aLong -> {
                 Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
@@ -54,7 +54,7 @@ public class SplashActivity extends BaseActivity {
         requestPermissions(PERMISSIONS, getString(R.string.permission_storage_camera_phone), () -> {
             //加入定时器 睡眠 2秒 自动跳转页面
             Observable.timer(2, TimeUnit.SECONDS).compose(RxUtils.io2Main()).subscribe(aLong -> {
-                boolean isFirst = SPHelper.getSPUtils().getBoolean(Constants.SP_IS_FIRST, true);
+                boolean isFirst = SPHelper.getSPUtils().getBoolean(Constants.SPConstants.SP_IS_FIRST, true);
 //                if (isFirst) {
 //                    Intent intent = new Intent(SplashActivity.this, CitySelectActivity.class);
 //                    intent.putExtra(CitySelectActivity.IS_WELCOME, true);

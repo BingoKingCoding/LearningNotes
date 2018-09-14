@@ -16,6 +16,8 @@ public interface IView {
 
     void showErrorPage();
 
+    void showErrorPage(String error);
+
     void finish();
 
 }

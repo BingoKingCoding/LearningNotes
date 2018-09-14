@@ -1,16 +1,22 @@
 package com.great.adou.module.main.home;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.great.adou.R;
+import com.great.adou.app.Constants;
 import com.great.adou.app.base.BaseFragment;
 import com.great.adou.app.net.bean.DailyListBean;
 import com.great.adou.app.net.bean.HomeListBean;
 import com.great.adou.app.utils.BannerImageLoader;
+import com.great.adou.app.utils.SPHelper;
+import com.orhanobut.logger.Logger;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -23,9 +29,10 @@ import java.util.Objects;
  */
 public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
 
-    private int mDistanceY;
+    private Double mDistanceY = 0.0;
     private HomeAdapter mAdapter;
     private Banner mBanner;
+
     private List<HomeListBean> mHomeList;
 
     public static Fragment newInstance() {
@@ -38,6 +45,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     private LinearLayout ll_search;
     private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private View view_fake_status_bar;
+    private View view_bg_search;
 
     @Override
     protected int getContentLayoutId() {
@@ -47,15 +57,53 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     protected void onInitContentView(View contentView) {
         super.onInitContentView(contentView);
-        ll_search = contentView.findViewById(R.id.ll_search);
+        ll_search = findViewById(R.id.ll_search);
         mRecyclerView = contentView.findViewById(R.id.rv);
+        mSwipeRefreshLayout = contentView.findViewById(R.id.srl_refresh);
+        view_fake_status_bar = findViewById(R.id.fake_status_bar);
+        view_bg_search = findViewById(R.id.view_bg_search);
 
+        Logger.i("view_alpha : " + view_bg_search.getAlpha());
+
+
+        initSwipeRefreshLayout();
         initRecyclerView();
         initSearchBar();
     }
 
+    private void initSwipeRefreshLayout() {
+
+        Objects.requireNonNull(mSwipeRefreshLayout).setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
+    }
+
+    @Override
+    protected void initComponent() {
+        super.initComponent();
+        DaggerHomeComponent.builder()
+                .appComponent(getAppComponent())
+                .homeModule(new HomeModule(this))
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        mPresenter.requestHomeListData();
+    }
+
     @Override
     public void onResume() {
+        SPUtils spUtils = SPHelper.getSPUtils();
+        if (spUtils.getBoolean(Constants.SPConstants.HOME_LIST_IS_CHANGE)) {
+            mHomeList = mPresenter.getListHome();
+            if (mAdapter != null) {
+                mAdapter.setNewData(mHomeList);
+                spUtils.put(Constants.SPConstants.HOME_LIST_IS_CHANGE, false);
+            }
+        }
+
         if (mBanner != null) {
             mBanner.start();
         }
@@ -71,17 +119,24 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     }
 
     private void initRecyclerView() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         View headerView = Objects.requireNonNull(getActivity()).getLayoutInflater().inflate(R.layout.item_home_header, (ViewGroup) mRecyclerView.getParent(), false);
         mBanner = headerView.findViewById(R.id.banner);
-
 
         mAdapter = new HomeAdapter(null);
         mAdapter.addHeaderView(headerView);
 
-
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    private void refresh() {
+        if (mBanner != null) {
+            mBanner.stopAutoPlay();
+        }
+
+        mPresenter.requestHomeListData();
+    }
 
     /**
      * Desc:设置搜索框透明度变化
@@ -93,21 +148,20 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 //滑动的距离
                 mDistanceY += dy;
                 //toolbar的高度
                 int toolbarHeight = ll_search.getBottom();
-
                 //当滑动的距离 <= toolbar高度的时候，改变Toolbar背景色的透明度，达到渐变的效果
-                if (mDistanceY <= toolbarHeight) {
-                    float scale = (float) mDistanceY / toolbarHeight;
-                    float alpha = scale * 255;
-                    ll_search.setAlpha(alpha);
-                } else {
-                    //上述虽然判断了滑动距离与toolbar高度相等的情况，但是实际测试时发现，标题栏的背景色
-                    //很少能达到完全不透明的情况，所以这里又判断了滑动距离大于toolbar高度的情况，
-                    //将标题栏的颜色设置为完全不透明状态
-                    ll_search.setBackgroundResource(R.color.colorPrimary);
+                if (toolbarHeight != 0 && mDistanceY <= toolbarHeight) {
+                    double d = mDistanceY / toolbarHeight;
+                    int i = Double.valueOf(d * 255).intValue();    //i 有可能小于0
+//                    view_bg_search.setAlpha(Math.max(i, 0));   // 0~255 透明度
+                    view_fake_status_bar.setAlpha((float) Math.max(d, 0));
+                    view_bg_search.setAlpha((float) Math.max(d, 0));
+
+                    Logger.i("alpha :" + (float) Math.max(d, 0));
                 }
             }
         });
@@ -128,6 +182,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
             initBanner(topStoriesList);
             mAdapter.setNewData(mHomeList);
         }
+    }
+
+    @Override
+    public void setRefreshing(boolean refreshing) {
+        mSwipeRefreshLayout.setRefreshing(refreshing);
     }
 
     private void initBanner(final List<DailyListBean.TopStoriesBean> topStoriesList) {

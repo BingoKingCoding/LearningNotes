@@ -2,6 +2,7 @@ package com.great.adou.app.base;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.great.adou.app.App;
+import com.great.adou.app.di.AppComponent;
 import com.great.adou.app.event.Event;
 import com.great.adou.app.event.EventBusUtil;
 import com.great.adou.app.widget.LoadingPage;
@@ -23,6 +26,8 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import static android.view.View.NO_ID;
+
 /**
  * <Fragment基类>
  * Created by WangWB on 2018/09/06  13:57.
@@ -33,7 +38,7 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
     protected P mPresenter;
 
     public LoadingPage mLoadingPage;
-
+    protected View contentView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,11 +50,21 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View contentView = getLayoutInflater().inflate(getContentLayoutId(), Objects.requireNonNull(getActivity()).findViewById(android.R.id.content), false);
+        contentView = getLayoutInflater().inflate(getContentLayoutId(), Objects.requireNonNull(getActivity()).findViewById(android.R.id.content), false);
+
         onInitContentView(contentView);
         return addLoadingPageIfNeed(contentView);
     }
 
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initData();
+    }
+
+    protected void initData() {
+    }
 
     @Override
     public void onStart() {
@@ -154,6 +169,13 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
         showPage(LoadingPage.STATE_ERROR);
     }
 
+    public void showErrorPage(String errorDesc) {
+        if (mLoadingPage != null) {
+            mLoadingPage.setTextErrorDesc(errorDesc);
+            showErrorPage();
+        }
+    }
+
     protected void showPage(int state) {
         if (mLoadingPage != null) {
             mLoadingPage.showPage(state);
@@ -237,4 +259,12 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment {
         Objects.requireNonNull(getActivity()).finish();
     }
 
+    protected AppComponent getAppComponent() {
+        return App.getApp().getAppComponent();
+    }
+
+    @Nullable
+    protected final <V extends View> V findViewById(@IdRes int id) {
+        return contentView.findViewById(id);
+    }
 }

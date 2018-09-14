@@ -5,7 +5,12 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="halfTransparent">#1000</color>
+    <color name="transparent">#00000000</color>
     <color name="bg_b8000000">#B8000000</color>
+    <!--页面背景的颜色-->
+    <color name="color_page_bg">#f2f4f5</color>
 
     <color name="text_333333">#333333</color>
     <color name="text_666666">#666666</color>
@@ -23,4 +28,15 @@
     <color name="bg_bottom_navigation">#FAFBFE</color>
     <!--item的分割线-->
     <color name="color_item_line">@color/d1d1d1</color>
+
+
+    <!--item的水波纹颜色-->
+    <color name="item_bg_white">#cfff</color>
+    <!--item的水波纹颜色-->
+    <color name="item_bg_press">#DD7D7D7D</color>
+    <!--水波纹或5.0以下选择器颜色-->
+    <color name="tab_bg">#777D7D7D</color>
+    <!--item的5.0一下版本选择器颜色-->
+    <color name="item_low_bg">#d9d9d9</color>
+
 </resources>

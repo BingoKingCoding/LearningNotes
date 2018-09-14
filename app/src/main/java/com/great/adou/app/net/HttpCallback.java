@@ -1,6 +1,19 @@
 package com.great.adou.app.net;
 
 
+import android.net.ParseException;
+import android.util.MalformedJsonException;
+
+import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.Utils;
+import com.great.adou.R;
+
+import org.json.JSONException;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -27,7 +40,16 @@ public abstract class HttpCallback<T> implements Observer<T> {
     @Override
     public void onError(@NonNull Throwable e) {
         e.printStackTrace();
-        onFail();
+        String errorDesc = "请求数据失败";
+        if (e instanceof UnknownHostException) {
+            errorDesc = "网络异常，请检查您的网络状态";
+        } else if (e instanceof ConnectException) {
+            errorDesc = "网络连接异常，请检查您的网络状态";
+        } else if (e instanceof JSONException || e instanceof ParseException || e instanceof MalformedJsonException) {
+            errorDesc = "解析错误";
+        }
+        ToastUtils.showShort(errorDesc);
+        onFail(errorDesc);
     }
 
     @Override
@@ -42,6 +64,6 @@ public abstract class HttpCallback<T> implements Observer<T> {
      */
     public abstract void onSuccess(T data);
 
-    public abstract void onFail();
+    public abstract void onFail(String error);
 
 }

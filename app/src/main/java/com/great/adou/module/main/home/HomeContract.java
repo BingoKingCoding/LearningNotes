@@ -22,6 +22,8 @@ import io.reactivex.Observable;
 public interface HomeContract {
     interface View extends IView {
         void refreshView(List<HomeListBean> homeList);
+
+        void setRefreshing(boolean refreshing);
     }
 
     interface Model extends IModel {

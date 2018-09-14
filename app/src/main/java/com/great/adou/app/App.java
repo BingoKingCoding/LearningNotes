@@ -7,6 +7,10 @@ import android.support.multidex.MultiDex;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.great.adou.R;
+import com.great.adou.app.di.AppComponent;
+import com.great.adou.app.di.AppModule;
+import com.great.adou.app.di.DaggerAppComponent;
+import com.great.adou.app.di.NetworkModule;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -26,6 +30,8 @@ import com.orhanobut.logger.PrettyFormatStrategy;
  */
 public class App extends Application {
 
+    private AppComponent mAppComponent;
+    private static App sApp;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -36,11 +42,18 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        sApp = this;
+
         initUtils();
         initLog();
+        initInjector();
     }
 
-    private void initUtils(){
+    public static App getApp() {
+        return sApp;
+    }
+
+    private void initUtils() {
         //https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/README-CN.md
         Utils.init(this);
     }
@@ -58,6 +71,17 @@ public class App extends Application {
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
     }
 
+
+    private void initInjector() {
+        mAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .networkModule(new NetworkModule(this))
+                .build();
+    }
+
+    public AppComponent getAppComponent() {
+        return mAppComponent;
+    }
 
     @Override
     public void onTerminate() {

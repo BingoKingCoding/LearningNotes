@@ -57,11 +57,11 @@ public class NetworkModule {
             builder.addInterceptor(loggingInterceptor);
         }
 
-        builder.cache(new Cache(FileUtil.getHttpCacheDir(), Constants.HTTP_CACHE_SIZE));
+        builder.cache(new Cache(FileUtil.getHttpCacheDir(), Constants.HttpConstants.HTTP_CACHE_SIZE));
         //设置超时
-        builder.connectTimeout(Constants.HTTP_CONNECT_TIMEOUT, TimeUnit.SECONDS);
-        builder.readTimeout(Constants.HTTP_READ_TIMEOUT, TimeUnit.SECONDS);
-        builder.writeTimeout(Constants.HTTP_READ_TIMEOUT, TimeUnit.SECONDS);
+        builder.connectTimeout(Constants.HttpConstants.HTTP_CONNECT_TIMEOUT, TimeUnit.SECONDS);
+        builder.readTimeout(Constants.HttpConstants.HTTP_READ_TIMEOUT, TimeUnit.SECONDS);
+        builder.writeTimeout(Constants.HttpConstants.HTTP_READ_TIMEOUT, TimeUnit.SECONDS);
         //错误重连
         builder.retryOnConnectionFailure(true);
         return builder.build();
@@ -72,7 +72,7 @@ public class NetworkModule {
     @Named("gankIo")
     @Singleton
     Retrofit provideGankIoRetrofit(OkHttpClient client) {
-        String baseUrl = Constants.BASE_API_URL_GANKIO;
+        String baseUrl = Constants.HttpConstants.BASE_API_URL_GANKIO;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -87,7 +87,7 @@ public class NetworkModule {
     @Named("zhiHu")
     @Singleton
     Retrofit provideZhiHuRetrofit(OkHttpClient client) {
-        String baseUrl = Constants.BASE_API_URL_ZHIHU;
+        String baseUrl = Constants.HttpConstants.BASE_API_URL_ZHIHU;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -102,7 +102,7 @@ public class NetworkModule {
     @Named("douBan")
     @Singleton
     Retrofit provideDouBanRetrofit(OkHttpClient client) {
-        String baseUrl = Constants.BASE_API_URL_DOUBAN;
+        String baseUrl = Constants.HttpConstants.BASE_API_URL_DOUBAN;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)

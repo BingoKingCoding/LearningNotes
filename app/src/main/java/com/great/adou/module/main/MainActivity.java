@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.blankj.utilcode.util.FragmentUtils;
 import com.great.adou.R;
+import com.great.adou.app.AppRuntimeWorker;
 import com.great.adou.app.base.BaseActivity;
 import com.great.adou.app.utils.StatusBarUtil;
 import com.great.adou.app.widget.BottomNavigationView;
@@ -41,6 +42,8 @@ public class MainActivity extends BaseActivity {
 
     private void init() {
         mIsExitApp = true;
+
+        AppRuntimeWorker.initHomeTitle();
 
         mBottomBar = findViewById(R.id.bottomBar);
         initTab();

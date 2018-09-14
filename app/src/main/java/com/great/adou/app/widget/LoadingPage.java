@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.great.adou.R;
 
@@ -21,6 +23,8 @@ import com.great.adou.R;
  * Created by WangWB on 2018/08/29  10:28.
  */
 public abstract class LoadingPage extends FrameLayout {
+
+    private TextView tv_error_desc;
 
     public LoadingPage(@NonNull Context context) {
         super(context);
@@ -88,6 +92,7 @@ public abstract class LoadingPage extends FrameLayout {
     private View createErrorView() {
         errorView = LayoutInflater.from(getContext()).inflate(R.layout.layout_loadingpage_state_error, this, false);
         CardView cv_error_refresh = errorView.findViewById(R.id.cv_error_refresh);
+        tv_error_desc = errorView.findViewById(R.id.tv_desc);
         cv_error_refresh.setOnClickListener(view -> {
             showPage(STATE_LOADING);
             retryRequestData();
@@ -143,6 +148,13 @@ public abstract class LoadingPage extends FrameLayout {
     private void stopAnimation() {
         if (mAnimationDrawable != null && mAnimationDrawable.isRunning()) {
             mAnimationDrawable.stop();
+        }
+    }
+
+
+    public void setTextErrorDesc(String desc) {
+        if (!TextUtils.isEmpty(desc) && tv_error_desc != null) {
+            tv_error_desc.setText(desc);
         }
     }
 

@@ -52,7 +52,7 @@ public class GuideActivity extends BaseActivity {
         cv_experience.setOnClickListener(v -> {
             Intent intent = new Intent(GuideActivity.this, SplashActivity.class);
             startActivity(intent);
-            SPHelper.getSPUtils().put(Constants.SP_IS_FIRST, false);
+            SPHelper.getSPUtils().put(Constants.SPConstants.SP_IS_FIRST, false);
             finish();
         });
 

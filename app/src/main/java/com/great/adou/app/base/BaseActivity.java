@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.great.adou.R;
+import com.great.adou.app.App;
+import com.great.adou.app.di.AppComponent;
 import com.great.adou.app.event.Event;
 import com.great.adou.app.event.EventBusUtil;
 import com.great.adou.app.utils.CollectionUtil;
@@ -376,6 +378,9 @@ public class BaseActivity<P extends IPresenter> extends RxFragmentActivity {
         }
     }
 
+    protected AppComponent getAppComponent() {
+        return App.getApp().getAppComponent();
+    }
 
     @Override
     protected void onDestroy() {
@@ -388,6 +393,5 @@ public class BaseActivity<P extends IPresenter> extends RxFragmentActivity {
             mPermissionUtil.release();
             mPermissionUtil = null;
         }
-
     }
 }
