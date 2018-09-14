@@ -23,9 +23,25 @@ android {
 
 
     }
-    buildTypes {
+
+    //签名
+    signingConfigs {
         release {
+            storeFile file("bingo.jks")
+            storePassword 'bingo123'
+            keyAlias 'bingo'
+            keyPassword 'bingo123'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            zipAlignEnabled true
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
