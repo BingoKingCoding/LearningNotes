@@ -23,7 +23,7 @@ public class GuideViewPagerAdapter extends DPagerAdapter<Integer> {
     public View getView(ViewGroup container, int position) {
         int drawable = getData(position);
         ImageView imageView = new ImageView(getActivity());
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setImageResource(drawable);
         return imageView;
     }
