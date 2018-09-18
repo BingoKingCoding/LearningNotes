@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/status_bar_view_height"
             android:alpha="0"
-            android:background="@color/colorPrimary"
+            android:background="@color/white"
             tools:alpha="1" />
 
         <FrameLayout
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:alpha="0"
-                android:background="@color/colorPrimary"
+                android:background="@color/white"
                 tools:alpha="1" />
 
             <!-- 搜索框 -->
@@ -52,12 +52,12 @@
                     android:maxLines="1"
                     android:text="定位中"
                     android:textColor="@color/text_333333"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="5dp"
                     android:src="@drawable/ic_expand_more_gray_24dp" />
 
                 <LinearLayout
@@ -90,6 +90,12 @@
                         android:textSize="14sp" />
 
                 </LinearLayout>
+
+                <ImageButton
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/ic_scan_home" />
 
                 <ImageButton
                     android:id="@+id/btn_msg"

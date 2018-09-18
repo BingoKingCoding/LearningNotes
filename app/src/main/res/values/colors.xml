@@ -28,7 +28,7 @@
     <color name="bg_bottom_navigation">#FAFBFE</color>
     <!--item的分割线-->
     <color name="color_item_line">@color/d1d1d1</color>
-
+    <color name="color_e2e2e2">#e2e2e2</color>
 
     <!--item的水波纹颜色-->
     <color name="item_bg_white">#cfff</color>
